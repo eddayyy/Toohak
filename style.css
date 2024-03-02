@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -131,6 +131,7 @@ table {
 body {
   background-color: #46237a;
   display: flex;
+  font-family: 'Inter', sanss-serif;
 }
 
 .container {
@@ -142,10 +143,24 @@ body {
 }
 
 .form-box > form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container > img {
+  padding-bottom: 20px;
+}
+
+.form-box form input {
+  color: white;
+}
+
+.form-box form input,
+form a {
+  margin-bottom: 10px; /* Add margin below each input field */
+  margin-top: 10px;
 }
 
 .form-box {
@@ -153,11 +168,43 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px;
+  width: 300px;
   margin: 0 auto;
   color: white;
   padding: 20px;
   background-color: #000f08;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Material UI */
+.btn {
+  background-color: #a2999e;
+  width: fit-content;
+  text-transform: none;
+  font-size: 18px;
+
+}
+
+.btn:hover {
+  background-color: #7a7477;
+}
+
+input::placeholder {
+  text-align: center;
+  font-family: 'Inter', sanss-serif;
+}
+
+input[type="text"],
+.btn {
+  width: 200px;
+}
+
+/* label underline focus color */
+/* icon prefix focus color */
+
+/*.input-field input[type=text]:focus {*/
+.form-box input[type="text"]:focus {
+  border-bottom-color: #256eff !important; /* Change border color on focus */
+  box-shadow: 0 1px 0 0 #256eff !important; /* Change box shadow on focus */
 }
