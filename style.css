@@ -129,7 +129,11 @@ table {
 }
 
 body {
-  background-color: #46237a;
+  background-image: linear-gradient(
+    to bottom,
+    #46237a 50%,
+    #000 200%
+  ); /* Adjust gradient colors and stops as needed */
   display: flex;
   font-family: "Inter", sanss-serif;
 }
@@ -174,7 +178,7 @@ form a {
   padding: 20px;
   background-color: #000f08;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Material UI */
