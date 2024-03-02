@@ -131,7 +131,7 @@ table {
 body {
   background-color: #46237a;
   display: flex;
-  font-family: 'Inter', sanss-serif;
+  font-family: "Inter", sanss-serif;
 }
 
 .container {
@@ -183,7 +183,6 @@ form a {
   width: fit-content;
   text-transform: none;
   font-size: 18px;
-
 }
 
 .btn:hover {
@@ -192,7 +191,7 @@ form a {
 
 input::placeholder {
   text-align: center;
-  font-family: 'Inter', sanss-serif;
+  font-family: "Inter", sanss-serif;
 }
 
 input[type="text"],
