@@ -24,7 +24,10 @@
       rel="stylesheet"
     />
     <!-- Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <!-- Materialize.css -->
     <link
       rel="stylesheet"
@@ -80,64 +83,4 @@
   <script type="module" src="../sources/js/add_game.js"></script>
 
   <script type="module" src="../sources/js/firebase_config.js"></script>
-
-  
-
-  <!-- Import JavaScript file as a module -->
-  <!-- <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCFZZdU6tXJkw0jl0JBlPtXJWVz4R18Bgk",
-      authDomain: "toohak-a8f56.firebaseapp.com",
-      databaseURL: "https://toohak-a8f56-default-rtdb.firebaseio.com",
-      projectId: "toohak-a8f56",
-      storageBucket: "toohak-a8f56.appspot.com",
-      messagingSenderId: "897488009404",
-      appId: "1:897488009404:web:1063307bdc12e4b277f8b9",
-      measurementId: "G-K22LYRMT3G",
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    // Get a reference to the Firestore service
-    const db = firebase.firestore();
-
-    // Function to handle form submission
-    document
-      .getElementById("addGameForm")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Get form data
-        const urlInput = document.getElementById("url");
-        const quizNameInput = document.getElementById("quizname");
-
-        const url = urlInput.value;
-        const quizName = quizNameInput.value;
-
-        // Write data to Firebase Firestore
-        try {
-          const docRef = await db.collection("games").add({
-            url: url,
-            quizname: quizName,
-          });
-          console.log("Document written with ID:", docRef.id);
-
-          // Clear form inputs
-          urlInput.value = "";
-          quizNameInput.value = "";
-        } catch (error) {
-          console.error("Error adding document:", error);
-        }
-      }
-      );
-  </script> -->
 </html>
