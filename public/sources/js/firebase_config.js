@@ -17,67 +17,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+let _url = generateRandomCode();
 
-// document
-//   .getElementById("addGameForm")
-//   .addEventListener("submit", async function (event) {
-//     event.preventDefault(); // Prevent default form submission
-
-//     // Get form data
-//     const formData = new FormData(event.target);
-//     const url = formData.get("url");
-//     const quizName = formData.get("quizname");
-
-//     // Create an array to store questions
-//     const questions = [];
-
-//     // Loop through question inputs
-//     document.querySelectorAll(".question").forEach((questionDiv) => {
-//       const questionNumber = questionDiv.dataset.questionNumber;
-//       const questionText = formData.get(`question${questionNumber}`);
-//       const option1 = formData.get(`option1${questionNumber}`);
-//       const option2 = formData.get(`option2${questionNumber}`);
-//       const option3 = formData.get(`option3${questionNumber}`);
-//       const option4 = formData.get(`option4${questionNumber}`);
-//       const correctAnswer = formData.get(`correctAnswer${questionNumber}`);
-
-//       // Add question data to array
-//       questions.push({
-//         questionText,
-//         options: {
-//           option1,
-//           option2,
-//           option3,
-//           option4,
-//         },
-//         correctAnswer,
-//       });
-
-
-//     });
-
-//     // Create a new document in Firebase Firestore with auto-generated ID
-//     try {
-//       const docRef = await addDoc(collection(db, "games"), {
-//         url: url,
-//         quizname: quizName,
-//         questions: questions, // Append questions data
-//       });
-//       console.log("Document written with ID:", docRef.id);
-
-//       // Clear form inputs
-//       event.target.reset();
-//     } catch (error) {
-//       console.error("Error adding document:", error);
-//     }
-//   });
-
+//call only if the hmtl file calling it is createquiz.html
 if (window.location.pathname.endsWith('createquiz.html')) {
   addGameForm();
 }
+
+//call on creation of the showquestions.html
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.pathname.endsWith('showquestions.html')) {
+    fetchAndDisplayQuizzes();
+  }
+});
+
 function addGameForm() {
-
-
   document
     .getElementById("addGameForm")
     .addEventListener("submit", async function (event) {
@@ -86,8 +40,8 @@ function addGameForm() {
       console.log("Form Data:", formData);
 
       // Extract URL and quiz name
-      const url = formData.get("url");
       const quizName = formData.get("quizname");
+      const url = _url;
       console.log("URL:", url);
       console.log("Quiz Name:", quizName);
 
@@ -171,142 +125,22 @@ async function fetchAndDisplayQuizzes() {
   }
 
 }
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.location.pathname.endsWith('showquestions.html')) {
-    fetchAndDisplayQuizzes();
+
+function generateRandomCode() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters.charAt(randomIndex);
   }
-});
 
-// ////////////////////////////////////////////////////////////////
-// ///////////////          REALTIME DB         ///////////////////
-// ////////////////////////////////////////////////////////////////
+  return code;
+}
 
-// // <script type="module">
-// // // Import the functions you need from the SDKs you need
-// // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-// // import {
-// //   getDatabase,
-// //   ref,
-// //   push,
-// // } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-// // // TODO: Add SDKs for Firebase products that you want to use
-// // // https://firebase.google.com/docs/web/setup#available-libraries
+// Example usage
+const randomCode = generateRandomCode();
+//console.log(randomCode); // Output will be a random 8-character code
 
-// // // Your web app's Firebase configuration
-// // // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// // const firebaseConfig = {
-// //   apiKey: "AIzaSyCFZZdU6tXJkw0jl0JBlPtXJWVz4R18Bgk",
-// //   authDomain: "toohak-a8f56.firebaseapp.com",
-// //   databaseURL: "https://toohak-a8f56-default-rtdb.firebaseio.com",
-// //   projectId: "toohak-a8f56",
-// //   storageBucket: "toohak-a8f56.appspot.com",
-// //   messagingSenderId: "897488009404",
-// //   appId: "1:897488009404:web:1063307bdc12e4b277f8b9",
-// //   measurementId: "G-K22LYRMT3G",
-// // };
-
-// // // Initialize Firebase
-// // const app = initializeApp(firebaseConfig);
-
-// // // Get a reference to the database service
-// // const db = getDatabase(app);
-
-// // // Function to handle form submission
-// // document
-// //   .getElementById("addGameForm")
-// //   .addEventListener("submit", function (event) {
-// //     event.preventDefault(); // Prevent default form submission
-
-// //     // Get form data
-// //     const urlInput = document.getElementById("url");
-// //     const quizNameInput = document.getElementById("quizname");
-
-// //     const url = urlInput.value;
-// //     const quizName = quizNameInput.value;
-
-// //     // Write data to Firebase Realtime Database
-// //     try {
-// //       const gamesRef = ref(db, "games");
-// //       push(gamesRef, {
-// //         url: url,
-// //         quizname: quizName,
-// //       });
-// //       console.log("Data written to Firebase");
-
-// //       // Clear form inputs
-// //       urlInput.value = "";
-// //       quizNameInput.value = "";
-// //     } catch (error) {
-// //       console.error("Error writing to Firebase:", error);
-// //     }
-// //   });
-// // </script>
-
-// ////////////////////////////////////////////////////////////////
-// ///////////////          REALTIME DB         ///////////////////
-// ////////////////////////////////////////////////////////////////
-
-// ////////////////////////////////////////////////////////////////
-// ///////////////         FIRESTORE DB         ///////////////////
-// ////////////////////////////////////////////////////////////////
-
-// // // Using firestore database
-// // <script type="module">
-// // // Import the functions you need from the SDKs you need
-// // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-// // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-// // // TODO: Add SDKs for Firebase products that you want to use
-// // // https://firebase.google.com/docs/web/setup#available-libraries
-
-// // // Your web app's Firebase configuration
-// // // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// // const firebaseConfig = {
-// //   apiKey: "AIzaSyCFZZdU6tXJkw0jl0JBlPtXJWVz4R18Bgk",
-// //   authDomain: "toohak-a8f56.firebaseapp.com",
-// //   databaseURL: "https://toohak-a8f56-default-rtdb.firebaseio.com",
-// //   projectId: "toohak-a8f56",
-// //   storageBucket: "toohak-a8f56.appspot.com",
-// //   messagingSenderId: "897488009404",
-// //   appId: "1:897488009404:web:1063307bdc12e4b277f8b9",
-// //   measurementId: "G-K22LYRMT3G",
-// // };
-
-// // // Initialize Firebase
-// // firebase.initializeApp(firebaseConfig);
-
-// // // Get a reference to the Firestore service
-// // const db = firebase.firestore();
-
-// // // Function to handle form submission
-// // document
-// //   .getElementById("addGameForm")
-// //   .addEventListener("submit", async function (event) {
-// //     event.preventDefault(); // Prevent default form submission
-
-// //     // Get form data
-// //     const urlInput = document.getElementById("url");
-// //     const quizNameInput = document.getElementById("quizname");
-
-// //     const url = urlInput.value;
-// //     const quizName = quizNameInput.value;
-
-// //     // Write data to Firebase Firestore
-// //     try {
-// //       const docRef = await db.collection("games").add({
-// //         url: url,
-// //         quizname: quizName,
-// //       });
-// //       console.log("Document written with ID:", docRef.id);
-
-// //       // Clear form inputs
-// //       urlInput.value = "";
-// //       quizNameInput.value = "";
-// //     } catch (error) {
-// //       console.error("Error adding document:", error);
-// //     }
-// //   });
-// // </script>
-
-// ////////////////////////////////////////////////////////////////
-// ///////////////         FIRESTORE DB         ///////////////////
-// ////////////////////////////////////////////////////////////////
+console.log(_url + ' :sending');
+export const gameCode = _url;

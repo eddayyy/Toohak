@@ -62,7 +62,48 @@
           <i class="material-icons right">arrow_forward</i>
         </button>
       </form>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="myModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Quiz Created!
+              </h5>
+              </button>
+            </div>
+            <div class="modal-body">Please copy this code!</div>
+            <div class="modal-footer">
+              <p id="urlDisplay">test</p>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                id = 'closeButton'
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="copyButton"><i class="material-icons">content_copy</i> Copy URL</button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
   </body>
 
   <script
@@ -82,10 +123,12 @@
   <!-- <script src="../sources/js/add_game.js"></script> -->
   <script type="module" src="../sources/js/add_game.js"></script>
 
+  <!-- Include jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Include Bootstrap JS -->
+  <!-- Include Bootstrap JS without integrity attribute -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script type="module" src="../sources/js/firebase_config.js"></script>
-  
 </html>
-
-
-
-
