@@ -136,6 +136,7 @@ body {
   ); /* Adjust gradient colors and stops as needed */
   display: flex;
   font-family: "Inter", sanss-serif;
+  flex-direction: column;
 }
 
 .container {
@@ -208,6 +209,41 @@ input[type="text"],
 
 /*.input-field input[type=text]:focus {*/
 .form-box input[type="text"]:focus {
-  border-bottom-color: #256eff !important; /* Change border color on focus */
-  box-shadow: 0 1px 0 0 #256eff !important; /* Change box shadow on focus */
+  border-bottom-color: #8749e4 !important; /* Change border color on focus */
+  box-shadow: 0 1px 0 0 #8749e4 !important; /* Change box shadow on focus */
+}
+
+/* Nav Bar */
+
+.nav-bar-container {
+  display: flex;
+  background-color: #321957;
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
+  flex-grow: 5;
+  padding-left: 10px;
+  justify-content: center;
+}
+
+#myTab {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-tabs {
+  border: none; /* Remove the border */
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: transparent; /* Remove background color */
+  color: #fff; /* Set text color to white or any other color */
+  border-color: transparent; /* Remove border */
+}
+
+.nav-tabs .nav-link:hover {
+  color: #8749e4; /* Set text color to white or any other color */
+  border-color: transparent; /* Remove border */
 }

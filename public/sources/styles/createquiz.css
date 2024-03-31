@@ -106,9 +106,34 @@ body {
   color: white;
 }
 
+#addGameForm input {
+  color: white !important;
+}
+
 .question_container {
   display: flex;
   justify-content: center;
+}
+
+#addGameForm input[type="text"]:focus {
+  border-bottom-color: #8749e4 !important; /* Change border color on focus */
+  box-shadow: 0 1px 0 0 #8749e4 !important; /* Change box shadow on focus */
+}
+
+.select-wrapper ul.dropdown-content.select-dropdown li span {
+  background-color: #150a24; /* Change to the desired background color */
+  color: #fff; /* Change to the desired text color */
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#addGameForm {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.3); /* Blue header background */
+  margin: 100px;
+  padding: 200px;
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .question > h3 {
@@ -119,6 +144,20 @@ body {
 .questions * {
   padding: 10px;
   color: red;
+}
+
+.btn.add-game {
+  background-color: #a2999e;
+  width: fit-content;
+  text-transform: none;
+  font-size: 18px;
+}
+
+.btn.add-question {
+  background-color: #a2999e;
+  width: fit-content;
+  text-transform: none;
+  font-size: 18px;
 }
 
 /* Modal styling */
@@ -200,4 +239,38 @@ body {
 /* Customize button hover */
 .btn:hover {
   opacity: 0.8; /* Reduce opacity on hover */
+}
+
+/* Nav Bar */
+.nav-bar-container {
+  display: flex;
+  background-color: #321957;
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
+  flex-grow: 5;
+  padding-left: 10px;
+  justify-content: center;
+}
+
+#myTab {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-tabs {
+  border: none; /* Remove the border */
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: transparent; /* Remove background color */
+  color: #fff; /* Set text color to white or any other color */
+  border-color: transparent; /* Remove border */
+}
+
+.nav-tabs .nav-link:hover {
+  color: #8749e4; /* Set text color to white or any other color */
+  border-color: transparent; /* Remove border */
 }
