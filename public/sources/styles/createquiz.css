@@ -106,19 +106,98 @@ body {
   color: white;
 }
 
- .question_container {
+.question_container {
   display: flex;
   justify-content: center;
 }
 
-
-.question > h3{
-    padding: 20px;
-    padding-left: 0px;
+.question > h3 {
+  padding: 20px;
+  padding-left: 0px;
 }
 
+.questions * {
+  padding: 10px;
+  color: red;
+}
 
-.questions *{
-    padding: 10px;
-    color: red;
+/* Modal styling */
+
+/* Customize modal background */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  margin-top: 250px;
+  height: 40%;
+  width: 40%;
+}
+
+/* Customize modal content */
+
+.modal-content {
+  max-width: 500px; /* Adjust as needed */
+  width: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    #46237a 50%,
+    #000 200%
+  ); /* Adjust gradient colors and stops as needed */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Customize modal header */
+.modal-header {
+  background-color: rgba(0, 0, 0, 0.5); /* Blue header background */
+  border-bottom: none;
+  justify-content: center;
+}
+
+/* Customize modal body */
+.modal-body {
+  padding: 20px; /* Add padding */
+  text-align: center;
+}
+
+#myModal {
+  display: none; /* Hide the modal completely */
+}
+
+/* Customize modal footer */
+#myModal .modal-footer {
+  background-color: rgba(0, 0, 0, 0.5); /* Light gray background */
+  border-top: none; /* Remove border from top */
+  align-items: space-between;
+}
+
+#urlDisplay {
+  color: #fff;
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+
+/* Customize modal title */
+.modal-title {
+  font-size: 24px; /* Larger font size */
+  text-align: center;
+}
+
+/* Customize close button */
+.close {
+  color: #fff; /* White close button color */
+  font-size: 28px; /* Larger font size */
+}
+
+/* Customize buttons */
+#closeButton {
+  margin-right: 10px;
+}
+#copyButton {
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+}
+/* Customize button hover */
+.btn:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
 }

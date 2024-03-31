@@ -2,15 +2,58 @@
 // This line should already be in your firebase_config.js or similar file, make sure it's included in your HTML before this script
 // const db = firebase.firestore();
 
-document.addEventListener('DOMContentLoaded', function () {
+import { gameCode } from "./firebase_config.js";
+
+// add_game.js
+// add_game.js
+document.addEventListener("DOMContentLoaded", function () {
   // Initialize Materialize components, if any specific initialization needed
 
-  document.getElementById('addQuestion').addEventListener('click', addQuestion);
+  document.getElementById("addQuestion").addEventListener("click", addQuestion);
 
-  document.getElementById('addGameForm').addEventListener('submit', async function (event) {
+  document.getElementById("addGameForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    await submitForm(); // Make sure to await the async function
-    redirectTo('../../ShowQuestions/showquestions.html');
+
+    // Assuming submitForm() returns a Promise that resolves when the form submission is successful
+    await submitForm();
+
+    // Display the modal with the Firebase URL
+    const modal = new bootstrap.Modal(document.getElementById('myModal'));
+    const urlDisplay = document.getElementById('urlDisplay');
+    const copyButton = document.getElementById('copyButton');
+
+    urlDisplay.textContent = gameCode;
+    modal.show();
+
+    // Add event listener to the copy button
+    copyButton.addEventListener('click', function () {
+      // Create a temporary textarea element
+      const textarea = document.createElement('textarea');
+      textarea.value = gameCode;
+
+      // Append the textarea to the document body
+      document.body.appendChild(textarea);
+
+      // Select the URL in the textarea
+      textarea.select();
+
+      try {
+        // Copy the URL to the clipboard using the Clipboard API
+        navigator.clipboard.writeText(gameCode, urlDisplay);
+        // Optionally, provide feedback to the user
+        alert('URL copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy URL: ', err);
+        // Handle error if copying to clipboard fails
+      } finally {
+        // Remove the textarea from the document body
+        document.body.removeChild(textarea);
+      }
+    });
+    closeButton.addEventListener('click', function () {
+      // Redirect to index.html
+      window.location.href = '../../index.html';
+    });
   });
 });
 
@@ -20,11 +63,11 @@ function redirectTo(url) {
 }
 
 function addQuestion() {
-  const questionsDiv = document.getElementById('questions');
+  const questionsDiv = document.getElementById("questions");
   const questionNumber = questionsDiv.children.length + 1;
 
-  const newQuestionDiv = document.createElement('div');
-  newQuestionDiv.classList.add('question');
+  const newQuestionDiv = document.createElement("div");
+  newQuestionDiv.classList.add("question");
   newQuestionDiv.dataset.questionNumber = questionNumber;
   newQuestionDiv.innerHTML = `
     <h3>Question ${questionNumber}</h3>
@@ -56,14 +99,15 @@ function addQuestion() {
   `;
 
   questionsDiv.appendChild(newQuestionDiv);
-  M.FormSelect.init(newQuestionDiv.querySelector('select'));
+  M.FormSelect.init(newQuestionDiv.querySelector("select"));
 }
 
 async function submitForm() {
-  const quizName = document.getElementById('quizname').value;
+  const quizName = document.getElementById("quizname").value;
+  // const url = generateRandomCode();
   let questions = [];
 
-  document.querySelectorAll('.question').forEach((questionDiv, index) => {
+  document.querySelectorAll(".question").forEach((questionDiv, index) => {
     const questionText = document.getElementById(`question${index + 1}`).value;
     const options = {
       option1: document.getElementById(`option1${index + 1}`).value,
@@ -71,8 +115,11 @@ async function submitForm() {
       option3: document.getElementById(`option3${index + 1}`).value,
       option4: document.getElementById(`option4${index + 1}`).value,
     };
-    const correctAnswerSelect = document.getElementById(`correctAnswer${index + 1}`);
-    const correctAnswer = correctAnswerSelect.options[correctAnswerSelect.selectedIndex].value;
+    const correctAnswerSelect = document.getElementById(
+      `correctAnswer${index + 1}`
+    );
+    const correctAnswer =
+      correctAnswerSelect.options[correctAnswerSelect.selectedIndex].value;
 
     questions.push({
       questionText,
@@ -81,14 +128,31 @@ async function submitForm() {
     });
   });
 
-  try {
-    const docRef = await addDoc(collection(db, 'games'), {
-      quizname: quizName,
-      questions: questions,
-    });
-    console.log('Document written with ID: ', docRef.id);
-    window.location.href = 'showquestions.html'; // Redirect after successful submission
-  } catch (error) {
-    console.error('Error adding document: ', error);
-  }
+  // try {
+  //   const docRef = await addDoc(collection(db, 'games'), {
+  //     quizname: quizName,
+  //     questions: questions,
+  //     url: url,
+  //   });
+  //   console.log('Document written with ID: ', docRef.id);
+  //   window.location.href = 'showquestions.html'; // Redirect after successful submission
+  // } catch (error) {
+  //   console.error('Error adding document: ', error);
+  // }
 }
+
+// function generateRandomCode() {
+//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   let code = '';
+
+//   for (let i = 0; i < 8; i++) {
+//     const randomIndex = Math.floor(Math.random() * characters.length);
+//     code += characters.charAt(randomIndex);
+//   }
+
+//   return code;
+// }
+
+// // Example usage
+// const randomCode = generateRandomCode();
+// console.log(randomCode); // Output will be a random 8-character code
