@@ -41,26 +41,52 @@
   </head>
   <body>
     <div class="container">
-      <img
-        src="/images/logo (1).png"
-        alt="logo image"
-        class="bounce-on-hover animate__animated animate__bounce"
-      />
-      <div class="form-box">
-        <form action="#">
-          <!-- Add more input fields as needed -->
-          <a href="../CreateQuiz/createquiz.html" class="waves-effect waves-light btn"
-            >Create a Quiz</a
-          >
-          <input
-            type="text"
-            class="input-field"
-            id="join"
-            name="join"
-            placeholder="Join Room"
-          />
-        </form>
-      </div>
+        <img
+            src="/images/logo (1).png"
+            alt="logo image"
+            class="bounce-on-hover animate__animated animate__bounce"
+        />
+        <div class="form-box">
+            <form action="#">
+                <!-- Add more input fields as needed -->
+                <a href="../CreateQuiz/createquiz.html" class="waves-effect waves-light btn">Create a Quiz</a>
+                <input
+                    type="text"
+                    class="input-field"
+                    id="join"
+                    name="join"
+                    placeholder="Join Room"
+                />
+                <a href="#" id="joinButton" class="waves-effect waves-light btn">Join Room</a>
+            </form>
+        </div>
     </div>
-  </body>
-</html>
+
+    <!-- Your JavaScript code -->
+    <script>
+       const joinInput = document.getElementById("join");
+      const joinButton = document.getElementById("joinButton");
+      // Add event listener for join button click
+      joinButton.addEventListener("click", function () {
+        // Redirect to another HTML page with the encoded input value
+        const inputValue = encodeURIComponent(joinInput.value);
+        const redirectTo = `ShowQuestions/showquestions.html?room=${inputValue}`;
+        redirectToPage(redirectTo);
+      });
+
+      // Function to redirect to another page
+      function redirectToPage(url) {
+        console.log("Redirecting to:", url);
+        // Check if the location specified in the URL exists
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              console.error("Page not found:", response.status);
+            }
+            window.location.href = url;
+          })
+          .catch(error => console.error("Error fetching page:", error));
+      }
+    </script>
+    </body>
+    </html>
