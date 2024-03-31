@@ -1,7 +1,14 @@
 // // firebase_init.js
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-import { getFirestore, addDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where
+} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCFZZdU6tXJkw0jl0JBlPtXJWVz4R18Bgk",
@@ -20,13 +27,13 @@ const db = getFirestore(app);
 let _url = generateRandomCode();
 
 //call only if the hmtl file calling it is createquiz.html
-if (window.location.pathname.endsWith('createquiz.html')) {
+if (window.location.pathname.endsWith("createquiz.html")) {
   addGameForm();
 }
 
-//call on creation of the showquestions.html
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.location.pathname.endsWith('showquestions.html')) {
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.endsWith("showquestions.html")) {
     fetchAndDisplayQuizzes();
   }
 });
@@ -99,22 +106,34 @@ function addGameForm() {
 }
 
 async function fetchAndDisplayQuizzes() {
-  const quizContainer = document.getElementById('quizContainer');
+  const urlParams = new URLSearchParams(window.location.search);
+  const encodedData = urlParams.get("room");
+
+  if (!encodedData) {
+    console.error("No room data provided in the URL.");
+    return;
+  }
+
+  const quizContainer = document.getElementById("quizContainer");
   try {
-    const querySnapshot = await getDocs(collection(db, 'games'));
+    const querySnapshot = await getDocs(query(collection(db, "games"), where("url", "==", encodedData)));
     querySnapshot.forEach((doc) => {
       const gameData = doc.data();
       const questions = gameData.questions; // Assuming 'questions' is an array of question objects
       questions.forEach((question, index) => {
-        const questionElement = document.createElement('div');
-        questionElement.classList.add('question');
+        const questionElement = document.createElement("div");
+        questionElement.classList.add("question");
         questionElement.innerHTML = `
                   <h4>Question ${index + 1}: ${question.questionText}</h4>
                   <div>Options:</div>
                   <ul>
-                      ${Object.keys(question.options).map(key => `<li>${question.options[key]}</li>`).join('')}
+                      ${Object.keys(question.options)
+                        .map((key) => `<li>${question.options[key]}</li>`)
+                        .join("")}
                   </ul>
-                  <div>Correct Answer: ${question.options[question.correctAnswer]}</div>
+                  <div>Correct Answer: ${
+                    question.options[question.correctAnswer]
+                  }</div>
               `;
         quizContainer.appendChild(questionElement);
       });
@@ -123,12 +142,12 @@ async function fetchAndDisplayQuizzes() {
     console.error("Error fetching games: ", error);
     quizContainer.innerHTML = `<p>Error loading games.</p>`;
   }
-
 }
 
 function generateRandomCode() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let code = '';
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let code = "";
 
   for (let i = 0; i < 8; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
@@ -142,5 +161,5 @@ function generateRandomCode() {
 const randomCode = generateRandomCode();
 //console.log(randomCode); // Output will be a random 8-character code
 
-console.log(_url + ' :sending');
+console.log(_url + " :sending");
 export const gameCode = _url;
