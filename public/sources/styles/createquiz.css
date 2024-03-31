@@ -230,11 +230,13 @@ body {
 /* Customize buttons */
 #closeButton {
   margin-right: 10px;
+  background-color: #a2999e;
 }
 #copyButton {
   margin-right: 10px;
   align-items: center;
   justify-content: center;
+  background-color: #a2999e;
 }
 /* Customize button hover */
 .btn:hover {
