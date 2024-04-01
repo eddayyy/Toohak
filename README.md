@@ -6,7 +6,7 @@
     </a>
     <img alt="Firebase" src="https://img.shields.io/badge/Firebase-ffca28?style=flat&logo=firebase&logoColor=black">
     <img alt="Bootstrap" src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white">
-    <img alt="Materialize CSS" src="https://img.shields.io/badge/Materialize_CSS-0081CB?style=flat&logo=materialize&logoColor=white">
+    <img alt="Materialize CSS" src="https://img.shields.io/badge/Materialize_CSS-0081CB?style=flat&logo=materialize-css&logoColor=white">
     <img alt="Animate.css" src="https://img.shields.io/badge/Animate.css-3E2723?style=flat&logo=css3&logoColor=white">
     <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg">
     <a href="https://opensource.org/licenses/MIT">
