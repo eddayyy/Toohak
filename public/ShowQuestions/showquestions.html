@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Questions</title>
-    <style>
-        .quiz-container {
-            margin: 20px;
-        }
-        .question {
-            margin-bottom: 20px;
-        }
-    </style>
+    <!-- External stylesheets and fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@500&family=Raleway:wght@800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../sources/styles/style.css">
+    <link rel="stylesheet" href="./showquestions.css">
+    <link rel="icon" href="/images/small_logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/small_logo.ico" type="image/x-icon">
 </head>
+
 <body>
-    <div id="quizContainer" class="quiz-container">
-        <!-- Quiz questions will be added dynamically here -->
+    <div class="nav-bar-container">
+        <!-- Navigation Bar -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item home">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="/" role="tab" aria-controls="home"
+                    aria-selected="true">
+                    <img src="../images/logo (1).png" alt="Home" width="100" height="50">
+                </a>
+
+            </li>
+        </ul>
     </div>
 
-
-    <script type="module" src="../sources/js/firebase_config.js"></script>
+    <div class="container">
+        <div id="quizContainer" class="quiz-container">
+            <!-- Quiz questions will be dynamically added here -->
+        </div>
+        <button id="submitAnswers" class="submit-btn">Submit Answers</button>
+        <div id="result" class="result">Your results will appear here after submission.</div>
+    </div>
+    <!-- External JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Script for fetching and displaying quizzes -->
+    <script type="module" src="showquestions.js"></script>
 
 </body>
+
 </html>

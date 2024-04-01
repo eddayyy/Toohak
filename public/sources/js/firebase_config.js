@@ -107,6 +107,8 @@ function addGameForm() {
 async function fetchAndDisplayQuizzes() {
   const urlParams = new URLSearchParams(window.location.search);
   const encodedData = urlParams.get("room");
+  let score = 0;
+  let totalQuestions = 0;
 
   if (!encodedData) {
     console.error("No room data provided in the URL.");
@@ -119,29 +121,47 @@ async function fetchAndDisplayQuizzes() {
     querySnapshot.forEach((doc) => {
       const gameData = doc.data();
       const questions = gameData.questions; // Assuming 'questions' is an array of question objects
+      totalQuestions = questions.length;
       questions.forEach((question, index) => {
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
         questionElement.innerHTML = `
                   <h4>Question ${index + 1}: ${question.questionText}</h4>
                   <div>Options:</div>
-                  <ul>
+                  <ul class="options">
                       ${Object.keys(question.options)
-                        .map((key) => `<li>${question.options[key]}</li>`)
+                        .map((key) => `<li><input type="radio" name="question${index}" value="${key}"> ${question.options[key]}</li>`)
                         .join("")}
                   </ul>
-                  <div>Correct Answer: ${
-                    question.options[question.correctAnswer]
-                  }</div>
               `;
         quizContainer.appendChild(questionElement);
       });
     });
+
+    document.getElementById("submitAnswers").addEventListener("click", function() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = ""; // Clear previous results
+
+      querySnapshot.forEach((doc) => {
+        const gameData = doc.data();
+        const questions = gameData.questions;
+        questions.forEach((question, index) => {
+          const selectedAnswer = document.querySelector(`input[name="question${index}"]:checked`)?.value;
+          if (selectedAnswer === question.correctAnswer) {
+            score += 1;
+          }
+        });
+      });
+
+      resultDiv.innerHTML = `Your score is ${score} out of ${totalQuestions}.`;
+    });
+
   } catch (error) {
     console.error("Error fetching games: ", error);
     quizContainer.innerHTML = `<p>Error loading games.</p>`;
   }
 }
+
 
 function generateRandomCode() {
   const characters =
