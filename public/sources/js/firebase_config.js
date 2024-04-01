@@ -104,6 +104,7 @@ function addGameForm() {
     });
 }
 
+
 async function fetchAndDisplayQuizzes() {
   const urlParams = new URLSearchParams(window.location.search);
   const encodedData = urlParams.get("room");
