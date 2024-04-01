@@ -5,7 +5,7 @@ import {
   getDocs,
   collection,
   query,
-  where
+  where,
 } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 // Firebase configuration for your project
@@ -24,54 +24,35 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Array to store the correct answers for validation later
-let correctAnswers = [];
+// Global variables
+let currentQuestionIndex = 0;
+let totalQuestions = 0;
+let questions = [];
+let score = 0; // Initialize score variable
+let userSelections = []; // Array to store user selections for each question
+let first_time = true; //first creation instance
 
-// Function to fetch quizzes from Firestore and display them
 async function fetchAndDisplayQuizzes() {
-  // Extracting room data from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const encodedData = urlParams.get("room");
+
   if (!encodedData) {
     console.error("No room data provided in the URL.");
     return;
   }
 
-  // Getting reference to the quiz container element
   const quizContainer = document.getElementById("quizContainer");
   try {
-    // Fetching documents from Firestore based on the encoded URL data
-    const qSnapshot = await getDocs(query(collection(db, "games"), where("url", "==", encodedData)));
-    qSnapshot.forEach((doc) => {
+    const querySnapshot = await getDocs(
+      query(collection(db, "games"), where("url", "==", encodedData))
+    );
+    querySnapshot.forEach((doc) => {
       const gameData = doc.data();
-      const questions = gameData.questions;
+      questions = gameData.questions; // Store questions data
+      totalQuestions = questions.length;
 
-      // Generating quiz content dynamically based on fetched data
-      questions.forEach((question, index) => {
-        correctAnswers[index] = question.correctAnswer; // Storing correct answers for later validation
-        const questionElement = document.createElement("div");
-        questionElement.classList.add("question");
-        questionElement.innerHTML = `
-          <h4 class="questionQ">Question ${index + 1}: ${question.questionText}</h4>
-          <div class="options">
-            ${Object.keys(question.options).map(key =>
-              `<label><input type="radio" name="question${index}" value="${key}"> ${question.options[key]}</label>`
-            ).join("<br>")}
-          </div>
-        `;
-        quizContainer.appendChild(questionElement);
-      });
-    });
-
-    // Setting up event listeners for the dynamically created radio inputs
-    document.querySelectorAll('.options input[type="radio"]').forEach(input => {
-      input.addEventListener('change', function () {
-        let parentOptionsDiv = this.closest('.options');
-        parentOptionsDiv.querySelectorAll('label').forEach(label => {
-          label.classList.remove('active');
-        });
-        this.closest('label').classList.add('active');
-      });
+      // Display the first question
+      displayCurrentQuestion(0);
     });
   } catch (error) {
     console.error("Error fetching games: ", error);
@@ -79,36 +60,161 @@ async function fetchAndDisplayQuizzes() {
   }
 }
 
-// Submit answers handler
-document.getElementById('submitAnswers').addEventListener('click', function() {
-    console.log('Submit button clicked.'); // Diagnostic log for debugging
-    const quizContainer = document.getElementById('quizContainer');
-    let score = 0;
+function displayCurrentQuestion(index) {
+  const question = questions[index];
+  const quizContainer = document.getElementById("quizContainer");
+  quizContainer.innerHTML = ""; // Clear previous question content
 
-    // Scoring and highlighting correct answers
-    correctAnswers.forEach((correctAnswer, index) => {
-        console.log(`Checking answer for question ${index + 1}`); // Diagnostic log for debugging
-        const questionInputName = `question${index}`;
-        const selectedOption = quizContainer.querySelector(`input[name="${questionInputName}"]:checked`);
-        
-        // Increment score if selected option matches the correct answer
-        if (selectedOption && selectedOption.value === correctAnswer) {
-            score++;
-        }
+  const questionElement = document.createElement("div");
+  questionElement.classList.add("question");
+  questionElement.innerHTML = `
+    <h4 class="questionQ">Question ${index + 1}: ${question.questionText}</h4>
+    <div>Options:</div>
+    <ul class="options">
+      ${Object.keys(question.options)
+        .map(
+          (key) => `
+            <li>
+              <label>
+                <input type="radio" name="question${index}" value="${key}">
+                ${question.options[key]}
+              </label>
+            </li>
+          `
+        )
+        .join("")}
+    </ul>
+  `;
+  quizContainer.appendChild(questionElement);
+}
 
-        // Highlighting the correct answer for feedback
-        const correctOptionLabel = quizContainer.querySelector(`input[name="${questionInputName}"][value="${correctAnswer}"]`).closest('label');
-        if (correctOptionLabel) {
-            console.log(`Highlighting correct answer for question ${index + 1}`); // Diagnostic log for debugging
-            correctOptionLabel.classList.add('highlight-correct');
-        }
-    });
+// Function to handle user's selection of an option
+function handleOptionSelection(selectedOption) {
+  const questionIndex = currentQuestionIndex;
+  userSelections[questionIndex] = selectedOption.value; // Record user's selection for the current question
+}
 
-    // Displaying the score to the user
-    const resultDisplay = document.getElementById('result');
-    resultDisplay.innerHTML = `You scored ${score} out of ${correctAnswers.length}`;
-    resultDisplay.style.display = 'block';
+function nextQuestion() {
+  const selectedOption = document.querySelector(
+    `input[name="question${currentQuestionIndex}"]:checked`
+  );
+  if (!selectedOption) {
+    alert("Please select an option.");
+    return;
+  }
+  console.log(selectedOption.value);
+  console.log("index: " + currentQuestionIndex);
+  handleOptionSelection(selectedOption); // Record user's selection
+  const selectedAnswer = selectedOption.value;
+  if (selectedAnswer === questions[currentQuestionIndex].correctAnswer) {
+    score++; // Increment score if the selected option is correct
+  }
+  console.log("Current Score: " + score);
+  currentQuestionIndex++; // Move to the next question
+  if (currentQuestionIndex < totalQuestions ) {
+    displayCurrentQuestion(currentQuestionIndex);
+    updateButtonVisibility();
+  } else {
+    //updateButtonVisibility();
+    console.log("Final Score:", score); // Log the final score when all questions are answered
+    submitAnswers();
+  }
+}
+
+
+function updateButtonVisibility() {
+  const nextButton = document.getElementById("nextButton");
+  const submitButton = document.getElementById("submitAnswers");
+
+  if (currentQuestionIndex < totalQuestions - 1 || first_time) {
+    nextButton.style.display = "block"; // Show the Next button
+    submitButton.style.display = "none"; // Hide the Submit Answers button
+    first_time = false; //we dont need this after the first question
+  }
+  else {
+    // nextButton.style.display = "none"; // Hide the Next button
+    // submitButton.style.display = "block"; // Show the Submit Answers button
+
+  }
+}
+
+function submitAnswers() {
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = ""; // Clear previous results
+
+  const quizContainer = document.getElementById("quizContainer");
+  quizContainer.innerHTML = ""; // Clear previous question content
+
+
+
+  // Loop through questions
+  for (let i = 0; i < totalQuestions; i++) {
+
+
+    const question = questions[i];
+    const selectedAnswer = userSelections[i];
+    const correctAnswer = question.correctAnswer;
+    const isCorrect = selectedAnswer === correctAnswer;
+
+    const questionElement = document.createElement("div");
+    questionElement.classList.add("question");
+    questionElement.innerHTML = `
+      <h4 class="questionQ">Question ${i + 1}: ${question.questionText}</h4>
+      <div>Options:</div>
+      <ul class="options">
+        ${Object.keys(question.options)
+          .map(
+            (key) => `
+              <li>
+                <label class="${
+                  isCorrect
+                    ? selectedAnswer === key || correctAnswer === key
+                      ? "correct_answer_box"
+                      : ""
+                    : selectedAnswer === key
+                    ? "wrong_answer_box"
+                    : correctAnswer === key
+                    ? "correct_answer_box"
+                    : ""
+                }">
+                  <input type="radio" name="question${i}" value="${key}" ${
+              selectedAnswer === key ? "checked" : ""
+            } disabled>
+                  ${question.options[key]}
+                </label>
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+      <p>Your Answer: ${selectedAnswer}</p>
+      <p>Correct Answer: ${correctAnswer}</p>
+      <hr>
+    `;
+    quizContainer.appendChild(questionElement);
+
+    if (isCorrect) {
+      score++; // Increment score if the answer is correct
+    }
+  }
+
+  resultDiv.innerHTML = `Your score is ${score} out of ${totalQuestions}.`;
+}
+
+
+document.getElementById("nextButton").addEventListener("click", nextQuestion);
+// Function to handle submitting the answers
+document.getElementById("submitAnswers").addEventListener("click", function () {
+  submitAnswers();
 });
 
 // Ensuring the DOM is fully loaded before executing the main function
 document.addEventListener("DOMContentLoaded", fetchAndDisplayQuizzes);
+// Ensuring the DOM is fully loaded before executing the main function
+document.addEventListener("DOMContentLoaded", fetchAndDisplayQuizzes);
+
+// Ensuring the DOM is fully loaded before executing the main function
+document.addEventListener("DOMContentLoaded", fetchAndDisplayQuizzes);
+
+// Ensuring the DOM is fully loaded before executing the main function
+document.addEventListener("DOMContentLoaded", updateButtonVisibility); // updates
