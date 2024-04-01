@@ -24,7 +24,7 @@ A Kahoot clone: [https://toohak-a8f56.web.app/](https://toohak-a8f56.web.app/)
 
 ![image](https://github.com/gunshycs/Toohak/assets/70672556/91460923-1c28-4200-9839-cb761c1a00c9)
 
-#Quiz Page
+# Quiz Page
 ![image](https://github.com/gunshycs/Toohak/assets/70672556/ae77b330-7faf-4470-b4c2-fb940179be71)
 
 ![image](https://github.com/gunshycs/Toohak/assets/70672556/b5520f94-5e69-4789-a352-bd06c92c7487)
