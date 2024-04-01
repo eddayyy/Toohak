@@ -16,6 +16,24 @@
 
 A Kahoot clone: [https://toohak-a8f56.web.app/](https://toohak-a8f56.web.app/)
 
+# Homepage
+![image](https://github.com/gunshycs/Toohak/assets/70672556/082b6e93-f090-467c-811e-2d0f85aa2890)
+
+# Create a Quiz
+![image](https://github.com/gunshycs/Toohak/assets/70672556/bbf7b8a8-fa47-41d1-bc0a-3b5e13796770)
+
+![image](https://github.com/gunshycs/Toohak/assets/70672556/91460923-1c28-4200-9839-cb761c1a00c9)
+
+#Quiz Page
+![image](https://github.com/gunshycs/Toohak/assets/70672556/ae77b330-7faf-4470-b4c2-fb940179be71)
+
+![image](https://github.com/gunshycs/Toohak/assets/70672556/b5520f94-5e69-4789-a352-bd06c92c7487)
+
+
+
+
+
+
 A dynamic and interactive online quiz platform, **Toohak** brings the excitement and competitiveness of classroom and office quizzes to the digital realm. Built using Firebase and Bootstrap, Toohak is designed as a clone of the popular quiz platform Kahoot, offering a similar engaging and user-friendly experience for both quiz creators and participants. Whether for educational purposes, team-building activities, or just for fun, Toohak enables users to create and join live quiz competitions with ease.
 
 ## Table of Contents
